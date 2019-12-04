@@ -8,12 +8,6 @@ node {
       sh(script: "docker build -t $WEB_IMAGE_NAME ./azure-vote", returnStdout: true)
       sh(script: "docker login ${acr_username}.azurecr.io -u ${acr_username} -p ${acr_password}", returnStdout: true)
       sh(script: "docker push $WEB_IMAGE_NAME", returnStdout: true)
-        
-      # sh(script: "docker login ${registry_url} -u ${acr_username} -p ${acr_password}", returnStdout: true)
-      # sh(script: "docker build -t ${registry_url}/customersapi:${BUILD_NUMBER} -f src/CustomersAPI/Dockerfile .", returnStdout: true)
-      # sh(script: "docker push ${registry_url}/customersapi:${BUILD_NUMBER}", returnStdout: true)
-      # sh(script: "docker build -t ${registry_url}/customersmvc:${BUILD_NUMBER} -f src/CustomersMVC/Dockerfile .", returnStdout: true)
-      # sh(script: "docker push ${registry_url}/customersmvc:${BUILD_NUMBER}", returnStdout: true)
     }
     stage('Unit Tests') {
       sh 'echo test'

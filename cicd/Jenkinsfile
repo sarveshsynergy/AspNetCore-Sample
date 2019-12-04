@@ -5,9 +5,9 @@ node {
     }
     stage('Build and push Docker image') {
       sh(script: "WEB_IMAGE_NAME=${acr_username}.azurecr.io/azure-vote-front:kube${BUILD_NUMBER}", returnStdout: true)
-        sh(script: "docker build -t ${acr_username}.azurecr.io/azure-vote-front:kube${BUILD_NUMBER} ./azure-vote", returnStdout: true)
-      sh(script: "docker login ${acr_username}.azurecr.io -u ${acr_username} -p ${acr_password}", returnStdout: true)
-      sh(script: "docker push ${acr_username}.azurecr.io/azure-vote-front:kube${BUILD_NUMBER}", returnStdout: true)
+        sh(script: "sudo docker build -t ${acr_username}.azurecr.io/azure-vote-front:kube${BUILD_NUMBER} ./azure-vote", returnStdout: true)
+      sh(script: "sudo docker login ${acr_username}.azurecr.io -u ${acr_username} -p ${acr_password}", returnStdout: true)
+      sh(script: "sudo docker push ${acr_username}.azurecr.io/azure-vote-front:kube${BUILD_NUMBER}", returnStdout: true)
     }
     stage('Unit Tests') {
       sh 'echo test'

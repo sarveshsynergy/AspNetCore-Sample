@@ -1,27 +1,9 @@
 node {
-    def built_img = ''
-    stage('Checkout git repo') {
-      git branch: 'master', url: params.git_repo
-    }
-    stage('Build and push Docker image') {
-        checkout scm
-        def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}", "-f ${dockerfile} ./src/CustomersAPI/Dockerfile")
+    checkout scm
 
-        customImage.inside {
-            sh 'make test'
-        }
-    }
-    stage('Unit Tests') {
-      sh 'echo test'
-    }
-    stage('Browser Tests'){
-        parallel(
-            "Edge":{sh 'echo test'},
-            "Firefox":{sh 'echo test'},
-            "Chrome":{sh 'echo test'}
-            )
-    }
-    stage('Deploy into k8s') {
-      sh(script: "cat cicd/k8s.yaml | sed -e 's/build_number/${BUILD_NUMBER}/g' -e 's/YourACRName/${acr_username}/g' | kubectl apply -f - --kubeconfig ~/.kube/config", returnStdout: true)
+    def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}")
+
+    customImage.inside {
+        sh 'make test'
     }
 }

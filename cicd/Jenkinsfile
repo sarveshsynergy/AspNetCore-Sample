@@ -12,7 +12,7 @@ node {
     }
 
     stage('Push Images') {
-        image1.push('latest')
-        image2.push('latest')
+        image1.push('${BUILD_NUMBER}')
+        image2.push('${BUILD_NUMBER}')
     }
 }

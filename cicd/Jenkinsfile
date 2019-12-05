@@ -4,8 +4,12 @@ node {
       git branch: 'master', url: params.git_repo
     }
     stage('Build and push Docker image') {
-        app = docker.build("getintodevops/hellonode")
-      
+        checkout scm
+        def customImage = docker.build("getintodevops/hellonode")
+
+        customImage.inside {
+            sh 'make test'
+        }
     }
     stage('Unit Tests') {
       sh 'echo test'

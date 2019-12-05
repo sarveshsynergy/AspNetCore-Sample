@@ -1,7 +1,7 @@
 node {
     checkout scm
 
-    def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}")
+    def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}", "-f ${dockerfile} ./src/CustomersAPI/Dockerfile")
 
     customImage.inside {
         sh 'make test'

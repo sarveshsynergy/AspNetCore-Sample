@@ -1,13 +1,18 @@
 node {
+    def image1 = ''
+    def image2 = ''
+
     stage('Checkout git repo') {
         checkout scm
     }
 
     stage('Build and push Docker image') {
-        def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}", "-f ./src/CustomersAPI/Dockerfile .")
+        image1 = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}", "-f ./src/CustomersAPI/Dockerfile .")
+        image2 = docker.build("${registry_url}/customersmvc:${BUILD_NUMBER}", "-f ./src/CustomersMVC/Dockerfile .")
+    }
 
-        customImage.inside {
-            sh 'make test'
-        }
+    stage('Checkout git repo') {
+        image1.push('latest')
+        image2.push('latest')
     }
 }

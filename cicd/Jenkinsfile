@@ -1,9 +1,13 @@
 node {
-    checkout scm
+    stage('Checkout git repo') {
+        checkout scm
+    }
 
-    def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}", "-f ${dockerfile} ./src/CustomersAPI/Dockerfile")
+    stage('Build and push Docker image') {
+        def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}", "-f ${dockerfile} ./src/CustomersAPI/Dockerfile")
 
-    customImage.inside {
-        sh 'make test'
+        customImage.inside {
+            sh 'make test'
+        }
     }
 }

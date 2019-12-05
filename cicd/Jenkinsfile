@@ -4,7 +4,7 @@ node {
     }
 
     stage('Build and push Docker image') {
-        def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}", "-f ./src/CustomersAPI/Dockerfile")
+        def customImage = docker.build("${registry_url}/customersapi:${BUILD_NUMBER}", "-f ./src/CustomersAPI/Dockerfile .")
 
         customImage.inside {
             sh 'make test'

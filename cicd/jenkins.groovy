@@ -11,6 +11,10 @@ node {
         image2 = docker.build("${registry_url}/customersmvc:${BUILD_NUMBER}", "-f ./src/CustomersMVC/Dockerfile .")
     }
 
+    stage('Unit Tests') {
+      sh 'echo test'
+    }
+    
     stage('Push Images') {
         image1.push('${BUILD_NUMBER}')
         image2.push('${BUILD_NUMBER}')
